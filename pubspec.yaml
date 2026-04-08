@@ -1,0 +1,53 @@
+name: routine_plus
+description: "Routine+ - Build better days."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  firebase_database: ^11.1.4
+  google_sign_in: ^6.2.1
+
+  # UI & Animations
+  flutter_animate: ^4.5.0
+  google_fonts: ^6.2.1
+  lottie: ^3.1.0
+  confetti: ^0.7.0
+
+  # Charts
+  fl_chart: ^0.68.0
+
+  # Calendar
+  table_calendar: ^3.1.2
+
+  # Storage & Prefs
+  shared_preferences: ^2.3.2
+
+  # Cloudinary / HTTP
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  cloudinary_public: ^0.23.1
+
+  # Utils
+  intl: ^0.19.0
+  uuid: ^4.4.2
+  provider: ^6.1.2
+  percent_indicator: ^4.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

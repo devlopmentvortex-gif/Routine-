@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "608096145858",
+    "firebase_url": "https://dailyplanner-4b922-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "dailyplanner-4b922",
+    "storage_bucket": "dailyplanner-4b922.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608096145858:android:4e32917d31578478c5065b",
+        "android_client_info": {
+          "package_name": "com.example.routine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "608096145858-mg4g6qkb3o573ivsfgmgkmofl306dksn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmV00adRZgSFpJLDYgLpZAHPm7pvaPDVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "608096145858-mg4g6qkb3o573ivsfgmgkmofl306dksn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "608096145858-hlkk7726ptprnt3lc70usu6dk0bqdctq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.untitled"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
