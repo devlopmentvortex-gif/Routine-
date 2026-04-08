@@ -27,12 +27,6 @@ class _RoutinePlusAppState extends State<RoutinePlusApp> {
   @override
   void initState() {
     super.initState();
-    // Initialize the app provider after widget is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<AppProvider>().initialize();
-      }
-    });
   }
 
   @override
@@ -44,6 +38,11 @@ class _RoutinePlusAppState extends State<RoutinePlusApp> {
       ],
       child: Consumer<AppProvider>(
         builder: (context, provider, child) {
+          // Initialize the app provider here where it's guaranteed to be available
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            provider.initialize();
+          });
+
           return MaterialApp(
             title: 'Routine+',
             debugShowCheckedModeBanner: false,

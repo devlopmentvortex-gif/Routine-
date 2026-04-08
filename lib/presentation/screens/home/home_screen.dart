@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import '../../../core/constants/app_colors.dart';
+import '../../../data/models/habit_model.dart';
 import '../../../data/models/models.dart';
 import '../../../providers/app_provider.dart';
 import '../../widgets/common/pressable.dart';
@@ -598,7 +599,7 @@ class _HabitStreakCard extends StatelessWidget {
 
     return Container(
       width: 120,
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(20),
@@ -608,29 +609,35 @@ class _HabitStreakCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(habit.emoji, style: const TextStyle(fontSize: 22)),
-          const SizedBox(height: 8),
-          Text(
-            habit.title,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          Text(habit.emoji, style: const TextStyle(fontSize: 20)),
+          const SizedBox(height: 6),
+          Flexible(
+            child: Text(
+              habit.title,
+              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 3),
           Row(
             children: [
               Text(
                 streak > 0 ? '🔥' : '○',
-                style: const TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 11),
               ),
-              const SizedBox(width: 4),
-              Text(
-                '$streak day${streak != 1 ? 's' : ''}',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.warning,
-                  fontWeight: FontWeight.w600,
+              const SizedBox(width: 3),
+              Flexible(
+                child: Text(
+                  '$streak day${streak != 1 ? 's' : ''}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.warning,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

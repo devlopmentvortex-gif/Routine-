@@ -31,27 +31,21 @@ class _PlannerScreenState extends State<PlannerScreen> {
         isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
 
     final allTasks = provider.tasks;
-    print('DEBUG: Total tasks in provider: ${allTasks.length}');
 
     final selectedTasks = allTasks.where((t) {
       if (t.dueDate == null) {
-        print('DEBUG: Task "${t.title}" has no due date');
         return false;
       }
       final matches = t.dueDate!.year == _selectedDay.year &&
           t.dueDate!.month == _selectedDay.month &&
           t.dueDate!.day == _selectedDay.day;
-      if (matches) {
-        print('DEBUG: Task "${t.title}" matches selected date');
-      }
+      if (matches) {}
       return matches;
     }).toList();
 
-    print(
-        'DEBUG: Selected tasks for ${_selectedDay.day}/${_selectedDay.month}: ${selectedTasks.length}');
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: "planner_fab",
         onPressed: () => showModalBottomSheet(
           context: context,
           isScrollControlled: true,

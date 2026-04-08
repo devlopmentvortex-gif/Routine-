@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/models/models.dart';
+import '../data/models/habit_model.dart';
 import '../data/services/database_service.dart';
 import '../data/services/auth_service.dart';
 
@@ -222,6 +223,79 @@ class AppProvider extends ChangeNotifier {
 
   Future<void> toggleHabit(String habitId, String dateKey, bool done) async {
     await _dbService.toggleHabitCompletion(habitId, dateKey, done);
+  }
+
+  // Helper function to create date key
+  String _dateKey(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  // Optimistic UI updates for habits
+  Future<void> toggleHabitOptimistic(String habitId) async {
+    final habitIndex = _habits.indexWhere((h) => h.id == habitId);
+    if (habitIndex == -1) return;
+
+    final habit = _habits[habitIndex];
+    final todayKey = _dateKey(DateTime.now());
+    final isCurrentlyCompleted = habit.isCompletedOn(DateTime.now());
+
+    // Optimistic update - update UI immediately
+    if (isCurrentlyCompleted) {
+      _habits[habitIndex] = habit.uncompleteForToday();
+    } else {
+      _habits[habitIndex] = habit.completeForToday();
+    }
+    notifyListeners();
+
+    // Sync with Firebase in background
+    try {
+      await _dbService.toggleHabitCompletion(
+          habitId, todayKey, !isCurrentlyCompleted);
+    } catch (e) {
+      // Revert on error
+      _habits[habitIndex] = habit;
+      notifyListeners();
+    }
+  }
+
+  // Get habits grouped by time slot
+  Map<TimeSlot, List<HabitModel>> get habitsByTimeSlot {
+    final Map<TimeSlot, List<HabitModel>> grouped = {};
+    for (final slot in TimeSlot.values) {
+      grouped[slot] = [];
+    }
+
+    for (final habit in _habits) {
+      if (habit.isActive) {
+        grouped[habit.timeSlot]!.add(habit);
+      }
+    }
+
+    // Sort each group by priority and creation date
+    for (final slot in TimeSlot.values) {
+      grouped[slot]!.sort((a, b) {
+        // First by priority (high to low)
+        final priorityOrder = {
+          HabitPriority.high: 0,
+          HabitPriority.medium: 1,
+          HabitPriority.low: 2,
+        };
+        final priorityCompare =
+            priorityOrder[a.priority]!.compareTo(priorityOrder[b.priority]!);
+        if (priorityCompare != 0) return priorityCompare;
+
+        // Then by creation date (newest first)
+        return b.createdAt.compareTo(a.createdAt);
+      });
+    }
+
+    return grouped;
+  }
+
+  // Get today's completion percentage
+  double get todayHabitCompletionPercentage {
+    if (_habits.isEmpty) return 0.0;
+    final completedCount = _habits.where((h) => h.isCompletedToday).length;
+    return completedCount / _habits.length;
   }
 
   // ─── Focus Actions ─────────────────────────────────────────────────────────

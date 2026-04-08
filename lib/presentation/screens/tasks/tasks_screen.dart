@@ -16,6 +16,7 @@ class TasksScreen extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: "tasks_fab",
         onPressed: () => _showAddTask(context),
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add_rounded, color: Colors.white),

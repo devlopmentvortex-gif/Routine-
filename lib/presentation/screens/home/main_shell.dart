@@ -3,7 +3,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../screens/home/home_screen.dart';
 import '../../screens/planner/planner_screen.dart';
 import '../../screens/tasks/tasks_screen.dart';
-import '../../screens/habits/habits_screen.dart';
+import '../../screens/habits/enhanced_habits_screen.dart';
 import '../../screens/analytics/analytics_screen.dart';
 
 class MainShell extends StatefulWidget {
@@ -20,7 +20,7 @@ class _MainShellState extends State<MainShell> {
     const HomeScreen(),
     const PlannerScreen(),
     const TasksScreen(),
-    const HabitsScreen(),
+    const EnhancedHabitsScreen(),
     const AnalyticsScreen(),
   ];
 

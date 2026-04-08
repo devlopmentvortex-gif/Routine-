@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/models.dart';
+import '../models/habit_model.dart';
 
 class DatabaseService {
   final FirebaseDatabase _db = FirebaseDatabase.instance;
@@ -14,23 +15,17 @@ class DatabaseService {
 
   Stream<List<TaskModel>> streamTasks() {
     return _tasksRef.onValue.map((event) {
-      print('DEBUG: Firebase event received: ${event.snapshot.exists}');
-
       if (!event.snapshot.exists || event.snapshot.value == null) {
-        print('DEBUG: No data in Firebase');
         return <TaskModel>[];
       }
 
       try {
         final Map data = event.snapshot.value as Map;
-        print('DEBUG: Raw data from Firebase: ${data.keys}');
-
         final tasks = data.values
             .map((v) {
               try {
                 return TaskModel.fromMap(v as Map);
               } catch (e) {
-                print('ERROR: Failed to parse task: $e');
                 return null;
               }
             })
@@ -39,10 +34,8 @@ class DatabaseService {
             .toList()
           ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-        print('DEBUG: Parsed ${tasks.length} tasks successfully');
         return tasks;
       } catch (e) {
-        print('ERROR: Failed to process Firebase data: $e');
         return <TaskModel>[];
       }
     });
@@ -78,10 +71,29 @@ class DatabaseService {
 
   Stream<List<HabitModel>> streamHabits() {
     return _habitsRef.onValue.map((event) {
-      if (!event.snapshot.exists || event.snapshot.value == null) return [];
-      final Map data = event.snapshot.value as Map;
-      return data.values.map((v) => HabitModel.fromMap(v as Map)).toList()
-        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      if (!event.snapshot.exists || event.snapshot.value == null) {
+        return <HabitModel>[];
+      }
+
+      try {
+        final Map data = event.snapshot.value as Map;
+        final habits = data.values
+            .map((v) {
+              try {
+                return HabitModel.fromMap(v as Map);
+              } catch (e) {
+                return null;
+              }
+            })
+            .where((habit) => habit != null)
+            .cast<HabitModel>()
+            .toList()
+          ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+        return habits;
+      } catch (e) {
+        return <HabitModel>[];
+      }
     });
   }
 

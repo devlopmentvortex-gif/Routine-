@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../data/models/models.dart';
+import '../../../data/models/habit_model.dart';
 import '../../../providers/app_provider.dart';
 
 class AnalyticsScreen extends StatelessWidget {
